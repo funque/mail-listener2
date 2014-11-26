@@ -94,6 +94,10 @@ function parseUnread() {
                 var f = self.imap.fetch(result, {
                     bodies: '',
                     markSeen: self.markSeen
+                }, {
+                    headers: {
+                        parse: true
+                    }
                 });
                 f.on('message', function(msg, seqno) {
                     var parser = new MailParser(self.mailParserOptions);
@@ -117,7 +121,7 @@ function parseUnread() {
                                 callback();
                             });
                         } else {
-                            self.emit('mail',mail,seqno,attributes);
+                            self.emit('mail', mail, seqno, attributes);
                         }
                     });
                     parser.on("attachment", function (attachment) {
